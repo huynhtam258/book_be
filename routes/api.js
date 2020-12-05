@@ -3,6 +3,7 @@ const jwtHelper = require('../config/jwtHelper');
 const express = require('express');
 const router = express.Router();
 const mongoose = require('mongoose');
+const message = require('./../documents/messages');
 var fs = require('fs');
 // const jsonwebtoken = require('jsonwebtoken');
 // const bcrypt = require('bcrypt-nodejs');
@@ -85,7 +86,10 @@ function getAllBook(req, res){
         .populate('category')
         .exec((err, book) => {
             if (err) {
-                res.send(err);
+                res.send({
+                    status: 400,
+                    message: message.ERROR_MESSAGE.BOOK.NOT_FOUND
+                });
                 return;
             }
             res.send(book);
@@ -95,7 +99,11 @@ function getAllBook(req, res){
 function getComment(req, res){
     reviewComment.find((err, reviewComment) => {
         if (err) {
-            res.send(err);
+            res.send({
+                success: false,
+                status: 400,
+                message: message.ERROR_MESSAGE.COMMENT.NOT_FOUND
+            });
             return;
         }
         res.json(reviewComment);
@@ -105,22 +113,28 @@ function getComment(req, res){
 
 function getCategorys(req, res) {
     bookCategory.find()
-            .populate('books')
-            .exec((err, lst) => {
-                if (err) {
-                    res.send(err);
-                    return;
-                }
-                res.json(lst);
-            })
+        .populate('books')
+        .exec((err, lst) => {
+            if (err) {
+                res.send({
+                    status: 400,
+                    message: message.ERROR_MESSAGE.CATEGORY.NOT_FOUND
+                });
+                return;
+            }
+            res.json(lst);
+        })
 }
 
-function getAuthor (req, res) {
+function getAuthor(req, res) {
     author.find()
         .populate('category')
         .exec((err, lst) => {
             if (err) {
-                res.send(err);
+                res.send({
+                    status: 400,
+                    message: message.ERROR_MESSAGE.AUTH.NOT_FOUND
+                });
                 return;
             }
             res.json(lst);
@@ -128,7 +142,7 @@ function getAuthor (req, res) {
 }
 // create a book
 
-function createBook(req, res)  {
+function createBook(req, res) {
     var AddBook = new book({
         bookName: req.body.bookName,
         author: req.body.author,
@@ -138,16 +152,16 @@ function createBook(req, res)  {
     })
     AddBook.save(err => {
         if (err) {
-            console.log(err)
             res.status(400).send({
                 success: false,
-                message: "Error"
+                status: 400,
+                message: message.ERROR_MESSAGE.BOOK.NOT_FOUND
             });
         } else {
-            console.log("Created successfuly!!" + JSON.stringify(err, undefined, 2));
             res.status(200).send({
                 success: true,
-                message: "Book created"
+                status: 400,
+                message: message.SUCCESS_MESSAGE.BOOK.CREATED
             });
         }
     })
@@ -157,7 +171,11 @@ function createBook(req, res)  {
 function getBookByCategory (req, res)  {
     book.find({ 'category': req.query.category }, (err, lst) => {
         if (err) {
-            res.send(err);
+            res.send({
+                success: false,
+                status: 400,
+                message: message.ERROR_MESSAGE.BOOK.NOT_FOUND
+            });
         }
         res.json(lst);
     });
@@ -166,18 +184,26 @@ function getBookByCategory (req, res)  {
 function getBookByAuthor(req, res) {
     book.find({ 'author': req.query.author }, (err, lst) => {
         if (err) {
-            res.send(err);
+            res.send({
+                success: false,
+                status: 400,
+                message: message.ERROR_MESSAGE.BOOK.NOT_FOUND
+            });
         }
         res.json(lst);
     });
 }
 //GetBookById
-function getBookById (req, res) {
+function getBookById(req, res) {
     book.findById(req.params.Id)
         .populate('category')
         .exec((err, result) => {
             if (err)
-                console.log(err)
+                res.send({
+                    success: false,
+                    status: 400,
+                    message: message.ERROR_MESSAGE.BOOK.NOT_FOUND
+                })
             else
                 res.send(result);
         })
@@ -187,8 +213,11 @@ function getBookById (req, res) {
 function updateBook (req, res)  {
     book.findById(req.params.id, (err, update) => {
         if (err) {
-            console.log(err);
-            res.status(500).send(err)
+            res.status(400).send({
+                success: false,
+                status: 400,
+                message: message.ERROR_MESSAGE.BOOK.NOT_FOUND
+            })
         } else {
             // update.bookId = req.body.bookId,
             update.bookName = req.body.bookName,
@@ -205,13 +234,12 @@ function updateBook (req, res)  {
             }
             update.save((err, result) => {
                 if (err) {
-                    console.log(err);
                     res.status(400).send({
                         success: false,
-                        message: "Error in update"
+                        status: 400,
+                        message: message.ERROR_MESSAGE.BOOK.UPDATE
                     });
                 } else {
-                    console.log(result)
                     res.status(200).send({
                         success: true,
                         message: "Book updated"
@@ -229,7 +257,11 @@ function deleteBook (req, res) {
             res.send(doc);
         }
         else {
-            console.log('Error deleting book.' + JSON.stringify(err, undefined, 2));
+            res.send({
+                success: false,
+                status: 400,
+                message: message.ERROR_MESSAGE.BOOK.DELETE
+            })
         }
     });
 }
@@ -251,10 +283,10 @@ function postComment (req, res)  {
             console.log(err)
             res.status(400).send({
                 success: false,
-                message: err
+                status: 400,
+                message: message.ERROR_MESSAGE.COMMENT.CREATE
             });
         } else {
-            console.log("Created successfuly!!" + JSON.stringify(err, undefined, 2));
             res.status(200).send({
                 success: true,
                 message: "Comment created"
@@ -267,21 +299,31 @@ function getCommentByIdBook(req, res)  {
                 .populate('nameReviwer')
                 .exec((err, lst) => {
                     if (err) {
-                        res.send(err);
+                        res.send({
+                            success: false,
+                            status: 400,
+                            message: message.ERROR_MESSAGE.COMMENT.NOT_FOUND
+                        });
                         return;
                     }
                     res.json(lst);
                 });
 }
 function deleteComment(req, res) {
-    if (!ObjectId.isValid(req.params.id))
-        return res.status(400).send(`No given id: ${req.params.id}`);
+    // if (!ObjectId.isValid(req.params.id))
+    //     return res.status(400).send(`No given id: ${req.params.id}`);
     reviewComment.findByIdAndRemove(req.params.id, (err, doc) => {
         if (!err) {
             res.send(doc);
         }
         else {
-            console.log('Error deleting comment.' + JSON.stringify(err, undefined, 2));
+            res.send(
+                {
+                    success: false,
+                    status: 400,
+                    message: message.ERROR_MESSAGE.COMMENT.DELETE
+                }
+            )
         }
     });
 }
@@ -297,7 +339,8 @@ function createCategory (req, res) {
         if (err) {
             res.status(400).send({
                 success: false,
-                message: "Error"
+                status: 400,
+                message: message.ERROR_MESSAGE.CATEGORY.CREATE
             });
             return;
         }
@@ -313,7 +356,12 @@ function deleteCategory (req, res) {
             res.send(doc);
         }
         else {
-            console.log('Error deleting book.' + JSON.stringify(err, undefined, 2));
+            // console.log('Error deleting book.' + JSON.stringify(err, undefined, 2));
+            res.send({
+                success: false,
+                status: 400,
+                message: message.ERROR_MESSAGE.AUTHOR.NOT_FOUND
+            })
         }
     });
 }
@@ -331,7 +379,8 @@ function editCategory (req, res)  {
                     console.log(err);
                     res.status(400).send({
                         success: false,
-                        message: "Error in update Category"
+                        status: 400,
+                        message: message.ERROR_MESSAGE.CATEGORY.UPDATE
                     });
                 } else {
                     console.log(result)
@@ -358,10 +407,10 @@ function createAuthor (req, res) {
     })
     AddAuthor.save(err => {
         if (err) {
-            console.log(err)
             res.status(400).send({
                 success: false,
-                message: "Error"
+                status: 400,
+                message: message.ERROR_MESSAGE.AUTHOR.CREATE
             });
         } else {
             console.log("Created successfuly!!" + JSON.stringify(err, undefined, 2));
@@ -373,27 +422,29 @@ function createAuthor (req, res) {
     })
 }
 
-function editAuthor (req, res) {
+function editAuthor(req, res) {
     author.findById(req.params.id, (err, update) => {
         if (err) {
-            console.log(err);
-            res.status(500).send(err)
+            res.status(500).send({
+                success: false,
+                status: 400,
+                message: message.ERROR_MESSAGE.AUTHOR.NOT_FOUND
+            })
         } else {
             update.authorName = req.body.authorName || update.authorName,
-            update.quote = req.body.quote || update.quote,
-            update.category = req.body.category || update.category,
-            update.releaseDate = req.body.releaseDate || update.releaseDate,
-            update.interviewContent = req.body.interviewContent || update.interviewContent,
-            update.image = req.body.image || update.image
+                update.quote = req.body.quote || update.quote,
+                update.category = req.body.category || update.category,
+                update.releaseDate = req.body.releaseDate || update.releaseDate,
+                update.interviewContent = req.body.interviewContent || update.interviewContent,
+                update.image = req.body.image || update.image
             update.save((err, result) => {
                 if (err) {
-                    console.log(err);
                     res.status(400).send({
                         success: false,
-                        message: "Error in update Category"
+                        status: 400,
+                        message: message.ERROR_MESSAGE.AUTHOR.UPDATE
                     });
                 } else {
-                    console.log(result)
                     res.status(200).send({
                         success: true,
                         message: "Category updated"
@@ -405,22 +456,32 @@ function editAuthor (req, res) {
 }
 
 //Get Author by Id
-function getAuthorById(req, res)  {
-    author.findById(req.params.Id, (err, result) => {
-        if (err)
-            console.log(err)
-        else
-            res.send(result);
-    })
+function getAuthorById(req, res) {
+    author.findById(req.params.Id)
+        .populate('category')
+        .exec((err, result) => {
+            if (err)
+                res.send({
+                    success: false,
+                    status: 400,
+                    message: message.ERROR_MESSAGE.AUTHOR.NOT_FOUND
+                })
+            else
+                res.send(result);
+        })
 }
 
 //Delete author
 
-function deleteAuthor (req, res) {
+function deleteAuthor(req, res) {
     book.find({ author: req.params.id })
         .exec((err, result) => {
-            if(err){
-                res.send(err)
+            if (err) {
+                res.send({
+                    success:false,
+                    status: 400,
+                    message: message.ERROR_MESSAGE.AUTHOR.NOT_FOUND
+                })
             }
             if (result) {
                 res.send({ message: "Tác giả có sách" })
@@ -428,6 +489,11 @@ function deleteAuthor (req, res) {
                 author.findByIdAndRemove(req.params.id,
                     (err, doc) => {
                         if (!err) res.send(doc);
+                        res.send({
+                            success: false,
+                            status: 400,
+                            message: message.ERROR_MESSAGE.AUTHOR.CREATE
+                        })
                     })
             }
         })
@@ -446,7 +512,11 @@ function createChildComment (req, res) {
         if(!err){
             res.send(result);
         }else{
-            res.send(err);
+            res.send({
+                success: false,
+                status: 400,
+                message: message.ERROR_MESSAGE.COMMENT.CREATE
+            });
         }
     })
 }
@@ -456,7 +526,11 @@ function getChildCommentByIdComment (req, res) {
                 .populate('nameReviwer')
                 .exec((err, lst) => {
                     if (err) {
-                        res.send(err);
+                        res.send({
+                            success: false,
+                            status: 400,
+                            message: message.ERROR_MESSAGE.COMMENT.NOT_FOUND
+                        });
                         return;
                     }
                     res.json(lst);
