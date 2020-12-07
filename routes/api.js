@@ -62,8 +62,8 @@ router.get('/getcmt', getComment);
 router.get('/getcategory', getCategorys);
 router.get('/getauthor', getAuthor);
 router.post('/create', uploads3.single('file'), createBook );
-router.get('/getbookcategory', getBookByCategory);
-router.get('/getbookauthor', getBookByAuthor);
+router.get('/getbookcategory/:id', getBookByCategory);
+router.get('/getbookauthor/:id', getBookByAuthor);
 router.get('/:Id', getBookById);
 router.post('/edit/:id', uploads3.single('file'), updateBook);
 router.delete('/delete/:id', deleteBook);
@@ -174,15 +174,43 @@ function getBookByCategory (req, res)  {
             res.send({
                 success: false,
                 status: 400,
-                message: message.ERROR_MESSAGE.BOOK.NOT_FOUND
+                message: message.ERROR_MESSAGE.CATEGORY.NOT_FOUND
             });
+        }else{
+            if(lst){
+                book.find()
+                    .populate('author')
+                    .exec((err, result)=>{
+                        res.send({
+                            data:result.filter(res => res.author.category == req.params.id)
+                        });
+                    })
+                // author.find({category:req.params.id})
+                //     .exec((err, listAuthor)=>{
+                //         if(!err){
+                //             let listbook = [];
+                //             listAuthor.map((author)=>{
+                //                 book.find({category: author._id},
+                //                     (err, book)=>{
+                //                         if(!err) {
+                //                             listbook.push(book)
+                //                         };
+                //                         res.send(listbook);
+                //                     })
+                //             })
+                //         }else{
+                //             // res.send({
+                                
+                //             // })
+                //         }
+                //     })
+            }
         }
-        res.json(lst);
     });
 }
 
 function getBookByAuthor(req, res) {
-    book.find({ 'author': req.query.author }, (err, lst) => {
+    book.find({ 'author': req.params.id }, (err, lst) => {
         if (err) {
             res.send({
                 success: false,
@@ -310,11 +338,9 @@ function getCommentByIdBook(req, res)  {
                 });
 }
 function deleteComment(req, res) {
-    // if (!ObjectId.isValid(req.params.id))
-    //     return res.status(400).send(`No given id: ${req.params.id}`);
     reviewComment.findByIdAndRemove(req.params.id, (err, doc) => {
         if (!err) {
-            res.send(doc);
+            console.log(doc);
         }
         else {
             res.send(
@@ -483,16 +509,16 @@ function deleteAuthor(req, res) {
                     message: message.ERROR_MESSAGE.AUTHOR.NOT_FOUND
                 })
             }
-            if (result) {
+            if (result.length > 0) {
                 res.send({ message: "Tác giả có sách" })
             } else {
-                author.findByIdAndRemove(req.params.id,
+                author.findByIdAndDelete(req.params.id,
                     (err, doc) => {
-                        if (!err) res.send(doc);
+                        if (!err) console.log(doc)
                         res.send({
                             success: false,
                             status: 400,
-                            message: message.ERROR_MESSAGE.AUTHOR.CREATE
+                            message: message.ERROR_MESSAGE.AUTHOR.DELETE
                         })
                     })
             }

@@ -20,7 +20,8 @@ module.exports = {
             NOT_FOUND: 'AUTHOR_NOT_FOUND',
             INVALD: 'AUTHOR_INVALID',
             CREATE: 'AUTHOR_CREATE_FAIL',
-            UPDATE: 'AUTHOR_UPDATE_FAIL'
+            UPDATE: 'AUTHOR_UPDATE_FAIL',
+            DELETE: 'AUTHOR_DELETE_FAIL'
         },
         CATEGORY: {
             EXIST: 'CATEGORY_EXIST',
