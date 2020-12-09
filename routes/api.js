@@ -250,7 +250,6 @@ function updateBook (req, res)  {
             // update.bookId = req.body.bookId,
             update.bookName = req.body.bookName,
                 update.author = req.body.author,
-                update.category = req.body.category,
                 update.releaseDate = req.body.releaseDate,
                 update.bookContent = req.body.bookContent
             // update.image = req.file.location
@@ -457,12 +456,18 @@ function editAuthor(req, res) {
                 message: message.ERROR_MESSAGE.AUTHOR.NOT_FOUND
             })
         } else {
-            update.authorName = req.body.authorName || update.authorName,
-                update.quote = req.body.quote || update.quote,
-                update.category = req.body.category || update.category,
-                update.releaseDate = req.body.releaseDate || update.releaseDate,
-                update.interviewContent = req.body.interviewContent || update.interviewContent,
-                update.image = req.body.image || update.image
+            update.authorName = req.body.authorName,
+                update.quote = req.body.quote,
+                update.category = req.body.category,
+                update.releaseDate = req.body.releaseDate,
+                update.interviewContent = req.body.interviewContent
+
+            if (req.file == undefined) {
+                console.log('No image');
+            } else {
+                update.image = req.file.location
+            }
+
             update.save((err, result) => {
                 if (err) {
                     res.status(400).send({
@@ -474,6 +479,7 @@ function editAuthor(req, res) {
                     res.status(200).send({
                         success: true,
                         message: "Category updated"
+
                     });
                 }
             });
