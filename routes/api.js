@@ -57,6 +57,8 @@ router.post('/register', ctrlAdmin.register);
 router.post('/login', ctrlAdmin.authenticate);
 // router.get('/userProfile/:id', jwtHelper.verifyJwtToken, ctrlAdmin.userProfile);
 router.get('/userProfile/:id', ctrlAdmin.userProfile);
+router.put('/changePassword', ctrlAdmin.changePassword);
+router.put('/updateProfile', ctrlAdmin.updateProfile);
 router.get('/getall', getAllBook);
 router.get('/getcmt', getComment);
 router.get('/getcategory', getCategorys);
@@ -79,7 +81,24 @@ router.get('/author/:Id', getAuthorById);
 router.delete('/deleteAuthor/:id', deleteAuthor);
 router.post('/childcomment/create', createChildComment);
 router.get('/getchildcmt/:id', getChildCommentByIdComment);
+router.delete('/deleteChildComment/:id', deleteChildComment);
 
+function deleteChildComment(req, res) {
+    childComment.findByIdAndDelete(req.params.id, (err, doc) => {
+        if (!err) {
+            console.log(doc);
+        }
+        else {
+            res.send(
+                {
+                    success: false,
+                    status: 400,
+                    message: message.ERROR_MESSAGE.COMMENT.DELETE
+                }
+            )
+        }
+    });
+}
 function getAllBook(req, res){
     book.find()
         .populate('author')
@@ -428,7 +447,7 @@ function createAuthor (req, res) {
         category: req.body.category,
         releaseDate: req.body.releaseDate,
         interviewContent: req.body.interviewContent,// image: 'https://appreviewbook-server.herokuapp.com/' + req.file.path
-        image: req.file.location,
+        image: req.body.file,
     })
     AddAuthor.save(err => {
         if (err) {
@@ -462,10 +481,10 @@ function editAuthor(req, res) {
                 update.releaseDate = req.body.releaseDate,
                 update.interviewContent = req.body.interviewContent
 
-            if (req.file == undefined) {
+            if (req.body.file == undefined) {
                 console.log('No image');
             } else {
-                update.image = req.file.location
+                update.image = req.body.file
             }
 
             update.save((err, result) => {

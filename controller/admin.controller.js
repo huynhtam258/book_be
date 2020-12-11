@@ -52,6 +52,47 @@ module.exports.authenticate = (req, res, next) => {
     })(req, res);
 }
 
+module.exports.changePassword = (req, res, next) =>{
+    passport.authenticate('local', (err, admin, info) => {
+        if(err) 
+            return res.status(400).json(err);
+        // Success
+        else if(admin){ 
+            admin.password = req.body.new_password;
+            admin.save((err, result)=>{
+                return res.send({
+                    message:'Changed Password Success',
+                    success: true
+                })
+            })
+        }
+        else
+            return res.status(400).json(info);
+    })(req, res);
+}
+
+module.exports.updateProfile = (req, res, next) =>{
+    passport.authenticate('local', (err, admin, info) => {
+        if(err) 
+            return res.status(400).json(err);
+        // Success
+        else if(admin){ 
+            // admin.password = req.body.new_password;
+            admin.firstname = req.body.firstname,
+            admin.password = req.body.password,
+            admin.lastname = req.body.lastname
+            admin.save((err, result)=>{
+                return res.send({
+                    message:'Updated Profile Success',
+                    success: true
+                })
+            })
+        }
+        else
+            return res.status(400).json(info);
+    })(req, res);
+}
+
 module.exports.userProfile = (req, res, next) => {
     console.log('Get user profile!');
     Admin.findById(req.params.id).exec((err, result) => {
