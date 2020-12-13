@@ -11,7 +11,7 @@ let reviewComment = mongoose.model('comment', {
         require,
     },
     date: {
-        type: String,
+        type: Date,
     },
     rate: {
         type: Number,

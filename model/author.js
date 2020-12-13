@@ -15,7 +15,7 @@ let author = mongoose.model('author',{
         require: true
     },
     releaseDate:{
-        type:String,
+        type:Date,
         require: true,
     },
     interviewContent:{

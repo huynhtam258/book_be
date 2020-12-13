@@ -51,7 +51,7 @@ var { reviewComment } = require('../model/comment');
 var { bookCategory } = require('../model/bookCategory');
 var { author } = require('../model/author');
 var { childComment } = require('../model/childComment');
-
+var tree = require('./tree');
 // router link all api
 router.post('/register', ctrlAdmin.register);
 router.post('/login', ctrlAdmin.authenticate);
@@ -59,6 +59,9 @@ router.post('/login', ctrlAdmin.authenticate);
 router.get('/userProfile/:id', ctrlAdmin.userProfile);
 router.put('/changePassword', ctrlAdmin.changePassword);
 router.put('/updateProfile', ctrlAdmin.updateProfile);
+
+router.get('/findAuthor/:name', tree.findAuthor);
+router.get('/findBook/:name', tree.findBook);
 router.get('/getall', getAllBook);
 router.get('/getcmt', getComment);
 router.get('/getcategory', getCategorys);
@@ -82,7 +85,7 @@ router.delete('/deleteAuthor/:id', deleteAuthor);
 router.post('/childcomment/create', createChildComment);
 router.get('/getchildcmt/:id', getChildCommentByIdComment);
 router.delete('/deleteChildComment/:id', deleteChildComment);
-
+// router.post('/addNode', tree.insert);
 function deleteChildComment(req, res) {
     childComment.findByIdAndDelete(req.params.id, (err, doc) => {
         if (!err) {

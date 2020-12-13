@@ -13,7 +13,7 @@ let childComment = mongoose.model('childComment', {
         type: String
     },
     date: {
-        type: String
+        type: Date
     }
 })
 
