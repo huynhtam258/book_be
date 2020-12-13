@@ -13,50 +13,6 @@ class BinarySearchTree {
         this.root = null;
     }
 
-    // find(value, key) {
-    //     if (!this.root) return false;
-
-    //     let current = this.root;
-    //     let found = false;
-    //     while (current && !found) {
-    //         if (value < current.value[key]) {
-    //             current = current.left;
-    //         } else if (value > current.value[key]) {
-    //             current = current.right;
-    //         } else {
-    //             found = current;
-    //         }
-    //     }
-
-    //     if (!found) return undefined;
-    //     return found;
-    // }
-
-    // insert(value, key) {
-    //     var newNode = new Node(value);
-    //     if (this.root === null) {
-    //         this.root = newNode;
-    //         return this;
-    //     }
-    //     let current = this.root;
-    //     while (current) {
-    //         if (value === current.value[key]) return undefined;
-    //         if (value < current.value[key]) {
-    //             if (current.left === null) {
-    //                 current.left = newNode;
-    //                 return this;
-    //             }
-    //             current = current.left;
-    //         } else {
-    //             if (current.right === null) {
-    //                 current.right = newNode;
-    //                 return this;
-    //             }
-    //             current = current.right;
-    //         }
-    //     }
-    // }
-
     find(value) {
         if (!this.root) return false;
 

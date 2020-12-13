@@ -92,13 +92,13 @@ function deleteChildComment(req, res) {
             console.log(doc);
         }
         else {
-            res.send(
-                {
-                    success: false,
-                    status: 400,
-                    message: message.ERROR_MESSAGE.COMMENT.DELETE
-                }
-            )
+            // res.send(
+            //     {
+            //         success: false,
+            //         status: 400,
+            //         message: message.ERROR_MESSAGE.COMMENT.DELETE
+            //     }
+            // )
         }
     });
 }
@@ -359,18 +359,18 @@ function getCommentByIdBook(req, res)  {
                 });
 }
 function deleteComment(req, res) {
-    reviewComment.findByIdAndRemove(req.params.id, (err, doc) => {
+    reviewComment.findByIdAndDelete(req.params.id, (err, doc) => {
         if (!err) {
             console.log(doc);
         }
         else {
-            res.send(
-                {
-                    success: false,
-                    status: 400,
-                    message: message.ERROR_MESSAGE.COMMENT.DELETE
-                }
-            )
+            // res.send(
+            //     {
+            //         success: false,
+            //         status: 400,
+            //         message: message.ERROR_MESSAGE.COMMENT.DELETE
+            //     }
+            // )
         }
     });
 }
@@ -448,7 +448,7 @@ function createAuthor (req, res) {
         authorName: req.body.authorName,
         quote: req.body.quote,
         category: req.body.category,
-        releaseDate: req.body.releaseDate,
+        birthDay: req.body.birthDay,
         interviewContent: req.body.interviewContent,// image: 'https://appreviewbook-server.herokuapp.com/' + req.file.path
         image: req.body.file,
     })
@@ -482,7 +482,8 @@ function editAuthor(req, res) {
                 update.quote = req.body.quote,
                 update.category = req.body.category,
                 update.releaseDate = req.body.releaseDate,
-                update.interviewContent = req.body.interviewContent
+                update.interviewContent = req.body.interviewContent,
+                update.birthDay = req.body.birthDay
 
             if (req.body.file == undefined) {
                 console.log('No image');
@@ -555,6 +556,7 @@ function deleteAuthor(req, res) {
 }
 /* #endregion */
 
+
 function createChildComment (req, res) {
     let comment = new childComment({
         id_user: req.body.id_user,
@@ -577,7 +579,7 @@ function createChildComment (req, res) {
 
 function getChildCommentByIdComment (req, res) {
     childComment.find({ id_comment: req.params.id })
-                .populate('nameReviwer')
+                .populate('id_user')
                 .exec((err, lst) => {
                     if (err) {
                         res.send({

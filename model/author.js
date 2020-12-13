@@ -14,7 +14,7 @@ let author = mongoose.model('author',{
         ref:'category',
         require: true
     },
-    releaseDate:{
+    birthDay:{
         type:Date,
         require: true,
     },

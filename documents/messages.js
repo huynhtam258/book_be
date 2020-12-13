@@ -1,66 +1,70 @@
 module.exports = {
     ERROR_MESSAGE: {
         USER: {
-            EXIST: 'USER_EXIST',
-            NOT_FOUND: 'USER_NOT_FOUND',
-            INVALD: 'USER_INVALID',
-            UPDATE: 'USER_UPDATE_FAIL'
+            EXIST: 'Tài khoản tồn tại',
+            NOT_FOUND: 'Không tìm thấy tài khoản',
+            INVALD: 'Lỗi tài khoản',
+            UPDATE: 'Cập nhật thất bại'
             
         },
         BOOK: {
-            EXIST: 'BOOK_EXIST',
-            NOT_FOUND: 'BOOK_NOT_FOUND',
-            INVALD: 'BOOK_INVALID',
-            UPDATE: 'BOOK_UPDATE_FAIL',
-            CREATE: 'BOOK_CREATE_FAIL',
-            DELETE: 'BOOK_DELETE_FAIL'
+            EXIST: 'Sách đã tồn tại',
+            NOT_FOUND: 'Không tìm thấy sách',
+            INVALD: 'Lỗi sách',
+            UPDATE: 'Cập nhật sách thất bại',
+            CREATE: 'Tạo sách thất bại',
+            DELETE: 'Xoá sách thành công'
         },
         AUTHOR: {
-            EXIST: 'AUTHOR_EXIST',
-            NOT_FOUND: 'AUTHOR_NOT_FOUND',
-            INVALD: 'AUTHOR_INVALID',
-            CREATE: 'AUTHOR_CREATE_FAIL',
-            UPDATE: 'AUTHOR_UPDATE_FAIL',
-            DELETE: 'AUTHOR_DELETE_FAIL'
+            EXIST: 'Tác giả đã tồn tại',
+            NOT_FOUND: 'Không tìm thấy tác giả',
+            INVALD: 'Lỗi tác giả',
+            CREATE: 'Tạo tác giả thất bại',
+            UPDATE: 'Cập nhật tác giả thất bại',
+            DELETE: 'Xoá tác giả thất bại'
         },
         CATEGORY: {
-            EXIST: 'CATEGORY_EXIST',
-            NOT_FOUND: 'CATEGORY_NOT_FOUND',
-            INVALD: 'CATEGORY_INVALID',
-            UPDATE: 'CATEGORY_UPDATE_FAIL',
-            CREATE: 'CATEGORY_CREATE_FAIL'
+            EXIST: 'Thể loại đã tồn tại',
+            NOT_FOUND: 'Không tìm thấy thể loạ',
+            INVALD: 'Lỗi thể loại',
+            UPDATE: 'Cập nhật thể loại thất bại',
+            CREATE: 'Tạo thể loại thất bại'
         },
         COMMENT:{
-            CREATE: 'COMMENT_FAIL',
-            NOT_FOUND: 'COMMENT_NOT_FOUND',
-            DELETE: 'COMMENT_DELETE_FAIL'
+            CREATE: 'Bình luận thất bại',
+            NOT_FOUND: 'Không tìm thấy bình luận',
+            DELETE: 'Xoá bình luận thất bại'
         },
         AUTH: {
-            INVALID_TOKEN: 'INVALID_TOKEN',
+            INVALID_TOKEN: 'Lỗi xác thực',
             PERMISSION: 'PERMISSION',
-            NOT_AUTHORIZED: 'NOT_AUTHORIZED'
+            NOT_AUTHORIZED: 'Không có xác thực'
         }
     },
     SUCCESS_MESSAGE: {
         USER: {
-            CREATED: 'USER_CREATED',
-            DELETED: 'USER_DELETED'
+            CREATED: 'Tạo thành công',
+            UPDATE: 'Cập nhật tài khoản thành công',
+            DELETED: 'Xoá tài khoản thất bại'
         },
         BOOK: {
-            CREATED: 'BOOK_CREATED',
-            DELETED: 'BOOK_DELETED'
+            CREATED: 'Tạo sách thành công',
+            UPDATE: 'Cập nhật sách thành công',
+            DELETED: 'Xoá sách thất bại'
         },
         CATEGORY: {
-            CREATED: 'CATEGORY_CREATED',
-            DELETED: 'CATEGORY_DELETED'
+            CREATED: 'Tạo thể loại thành công',
+            UPDATE: 'Cập nhật thể loại thành công',
+            DELETED: 'Xoá thể loại thất bại'
         },
         AUTHOR: {
-            CREATED: 'AUTHOR_CREATED',
-            DELETED: 'AUTHOR_DELETED'
+            CREATED: 'Tạo tác giả thành công',
+            UPDAETE: 'Cập nhật tác giả thành công',
+            DELETED: 'Xoá tác giả thành công'
         },
         COMMENT: {
-            CREATED: 'COMMENT_CREATED',
-            DELETED: 'COMMENT_DELETED'
+            CREATED: 'Bình luận thành công',
+            DELETED: 'Xoá bình luận thành công'
         }
     }
 };

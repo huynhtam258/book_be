@@ -7,7 +7,7 @@ let childComment = mongoose.model('childComment', {
     },
     id_user: {
         type: Schema.Types.ObjectId,
-        ref: 'admin'
+        ref: 'Admin'
     },
     contentChild: {
         type: String
