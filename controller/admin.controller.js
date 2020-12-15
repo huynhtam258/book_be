@@ -1,12 +1,11 @@
 const mongoose = require('mongoose');
-const Admin = mongoose.model('Admin');
+const Admin = mongoose.model('User');
 const passport = require('passport');
 const lodash = require('lodash');
 const { result } = require('lodash');
-// let Admin = require('../model/admin.model');
+// let {Admin} = require('../model/admin.model');
 
 module.exports.register = (req, res, next) => {
-    console.log('Register new admin.');
     var admin = new Admin();
     admin.username = req.body.username;
     admin.password = req.body.password;
@@ -29,7 +28,6 @@ module.exports.register = (req, res, next) => {
 }
 
 module.exports.authenticate = (req, res, next) => {
-    console.log('Log in now!');
     passport.authenticate('local', (err, admin, info) => {
         // Error passport
         if(err) 

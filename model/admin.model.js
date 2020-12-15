@@ -59,5 +59,5 @@ AdminSchema.methods.generateJwt = function() {
 
 // module.exports = mongoose.model('users', UserSchema);
 
-mongoose.model('Admin', AdminSchema);
+mongoose.model('User', AdminSchema);
 // module.exports = mongoose.model('Admin', AdminSchema);

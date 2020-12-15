@@ -92,6 +92,7 @@ function deleteChildComment(req, res) {
             console.log(doc);
         }
         else {
+            res.send({})
             // res.send(
             //     {
             //         success: false,
@@ -307,9 +308,9 @@ function deleteBook (req, res) {
         }
         else {
             res.send({
-                success: false,
-                status: 400,
-                message: message.ERROR_MESSAGE.BOOK.DELETE
+                success: success,
+                status: 200,
+                message: message.SUCCESS_MESSAGE.BOOK.DELETED
             })
         }
     });
@@ -359,20 +360,22 @@ function getCommentByIdBook(req, res)  {
                 });
 }
 function deleteComment(req, res) {
-    reviewComment.findByIdAndDelete(req.params.id, (err, doc) => {
-        if (!err) {
-            console.log(doc);
-        }
-        else {
-            // res.send(
-            //     {
-            //         success: false,
-            //         status: 400,
-            //         message: message.ERROR_MESSAGE.COMMENT.DELETE
-            //     }
-            // )
-        }
-    });
+    reviewComment.findByIdAndDelete(req.params.id,
+        (err, doc) => {
+            if (!err) {
+                res.send({
+                    success: true,
+                    status: 400,
+                    message: message.ERROR_MESSAGE.COMMENT.DELETE
+                })
+            }else {
+                res.send({
+                    success: true,
+                    status: 200,
+                    message: message.SUCCESS_MESSAGE.COMMENT.DELETE
+                })
+            }
+        });
 }
 /* #endregion */
 
@@ -403,11 +406,10 @@ function deleteCategory (req, res) {
             res.send(doc);
         }
         else {
-            // console.log('Error deleting book.' + JSON.stringify(err, undefined, 2));
             res.send({
-                success: false,
-                status: 400,
-                message: message.ERROR_MESSAGE.AUTHOR.NOT_FOUND
+                success: true,
+                status: 200,
+                message: message.SUCCESS_MESSAGE.CATEGORY.DELETED
             })
         }
     });
@@ -539,15 +541,21 @@ function deleteAuthor(req, res) {
                 })
             }
             if (result.length > 0) {
-                res.send({ message: "Tác giả có sách" })
+                res.send({ message: message.ERROR_MESSAGE.AUTHOR.HAVE_BOOK })
             } else {
                 author.findByIdAndDelete(req.params.id,
                     (err, doc) => {
-                        if (!err) console.log(doc)
+                        if (!err) {
+                            res.send({
+                                success: true,
+                                status: 400,
+                                message: message.ERROR_MESSAGE.AUTHOR.DELETE
+                            })
+                        }
                         res.send({
-                            success: false,
-                            status: 400,
-                            message: message.ERROR_MESSAGE.AUTHOR.DELETE
+                            success: true,
+                            status: 200,
+                            message: message.SUCCESS_MESSAGE.AUTHOR.DELETED
                         })
                     })
             }

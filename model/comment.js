@@ -7,7 +7,7 @@ let reviewComment = mongoose.model('comment', {
     },
     nameReviwer: {
         type: Schema.Types.ObjectId,
-        ref: 'Admin',
+        ref: 'User',
         require,
     },
     date: {

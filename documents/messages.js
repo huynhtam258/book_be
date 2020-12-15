@@ -21,7 +21,8 @@ module.exports = {
             INVALD: 'Lỗi tác giả',
             CREATE: 'Tạo tác giả thất bại',
             UPDATE: 'Cập nhật tác giả thất bại',
-            DELETE: 'Xoá tác giả thất bại'
+            DELETE: 'Xoá tác giả thất bại',
+            HAVE_BOOK: 'Tác giả có sách'
         },
         CATEGORY: {
             EXIST: 'Thể loại đã tồn tại',
@@ -45,17 +46,17 @@ module.exports = {
         USER: {
             CREATED: 'Tạo thành công',
             UPDATE: 'Cập nhật tài khoản thành công',
-            DELETED: 'Xoá tài khoản thất bại'
+            DELETED: 'Xoá tài khoản thành công'
         },
         BOOK: {
             CREATED: 'Tạo sách thành công',
             UPDATE: 'Cập nhật sách thành công',
-            DELETED: 'Xoá sách thất bại'
+            DELETED: 'Xoá sách thành công'
         },
         CATEGORY: {
             CREATED: 'Tạo thể loại thành công',
             UPDATE: 'Cập nhật thể loại thành công',
-            DELETED: 'Xoá thể loại thất bại'
+            DELETED: 'Xoá thể loại thành công'
         },
         AUTHOR: {
             CREATED: 'Tạo tác giả thành công',
